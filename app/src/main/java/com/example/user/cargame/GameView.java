@@ -1,0 +1,171 @@
+package com.example.user.cargame;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.widget.Button;
+
+/**
+ * Created by user on 23-11-2017.
+ */
+
+public class GameView  extends SurfaceView{
+    SurfaceHolder sh;
+    CPlayer cp;
+    MyThread mt;
+    Boom boom;
+    Rect r,r1,r2;
+    EnemyCar ec1;
+    EnemyCar2 ec2;
+    int btmy,topy;
+    Button b1;
+
+    @SuppressLint("WrongCall")
+    public GameView(Context ct,int x,int y)
+    {
+        super(ct);
+        cp=new CPlayer(ct,x,y);
+        boom =new Boom(ct);
+        sh=getHolder();
+        btmy=y;
+        topy=0;
+        ec1=new EnemyCar(ct,x,y);
+        ec2=new EnemyCar2(ct,x,y);
+        mt = new MyThread(this);
+
+
+        sh.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+
+                mt.isrunning(true);
+                mt.start();
+
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas){
+        int score=cp.getScore();
+        Paint ps=new Paint();
+        ps.setColor(Color.BLUE);
+        ps.setTextSize(50f);
+
+
+        int btm=cp.getY();
+       canvas.drawColor(Color.WHITE);
+
+        r=new Rect(cp.getX(),cp.getY(),cp.getX()+cp.getBp().getWidth(),cp.getY()+cp.getBp().getHeight());
+        canvas.drawText("Score:"+score,10,50,ps);
+        canvas.drawBitmap(cp.getBp(),cp.getX(),cp.getY(),null);
+
+        canvas.drawBitmap(ec1.getBitmap(),ec1.getX(),ec1.getY(),null);
+        canvas.drawBitmap(ec2.getBitmap(),ec2.getX(),ec2.getY(),null);
+
+
+        r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
+        r2=new Rect(ec2.getX(),ec2.getY(),ec2.getX()+ec2.getBitmap().getWidth(),ec2.getY()+ec2.getBitmap().getHeight());
+
+
+        if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
+            {
+            boom.setX(cp.getX()+cp.getBp().getWidth()-150);
+            boom.setY(cp.getY()-45);
+
+
+            canvas.drawBitmap(boom.getBitmap(),boom.getX(),boom.getY(),null);
+            mt.isrunning(false);
+            Paint p=new Paint();
+            Paint p1=new Paint();
+            p.setColor(Color.RED);
+            p1.setColor(Color.BLUE);
+            p.setTextSize(100f);
+            p1.setTextSize(50f);
+
+            canvas.drawText("Game Over",350,350,p);
+            canvas.drawText("Score:"+score,520,400,p1);
+        }
+        else if(btm>=btmy-150)
+        {
+
+            boom.setX(cp.getX());
+            boom.setY(cp.getY()+20);
+            canvas.drawBitmap(boom.getBitmap(),boom.getX(),boom.getY(),null);
+            mt.isrunning(false);
+
+            Paint p=new Paint();
+            Paint p1=new Paint();
+            p.setColor(Color.RED);
+            p1.setColor(Color.BLUE);
+            p.setTextSize(100f);
+            p1.setTextSize(50f);
+
+            canvas.drawText("Game Over",350,350,p);
+            canvas.drawText("Score"+score,520,400,p1);
+
+
+
+        }
+        else if(btm<=topy)
+        {
+
+            boom.setX(cp.getX()+20);
+            boom.setY(cp.getY()-80);
+            canvas.drawBitmap(boom.getBitmap(),boom.getX(),boom.getY(),null);
+            mt.isrunning(false);
+
+            Paint p=new Paint();
+            Paint p1=new Paint();
+            p.setColor(Color.RED);
+            p1.setColor(Color.BLUE);
+            p.setTextSize(100f);
+            p1.setTextSize(50f);
+
+            canvas.drawText("Game Over",350,350,p);
+            canvas.drawText("Score"+score,520,400,p1);
+
+
+
+        }
+
+        ec1.change();
+        ec2.change();
+
+
+        cp.change();
+
+    }
+    public boolean onTouchEvent(MotionEvent motionEvent){
+        switch(motionEvent.getAction() & motionEvent.ACTION_MASK){
+            case MotionEvent.ACTION_UP:
+                cp.moveLeft();
+                break;
+            case MotionEvent.ACTION_DOWN:
+                cp.moveRight();
+                 //cp.setY(cp.getY()-40);
+                break;
+
+        }
+        return true;
+    }
+
+
+}
