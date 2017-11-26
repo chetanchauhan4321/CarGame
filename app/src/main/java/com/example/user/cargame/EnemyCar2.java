@@ -17,7 +17,7 @@ public class EnemyCar2 {
     private int y,z,y1;
 
     public EnemyCar2(Context context, int screenx, int screeny){
-        bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.car5);
+        bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.truck2);
         x=screenx+bitmap.getWidth();
 
         x1=x;

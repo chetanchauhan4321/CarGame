@@ -103,7 +103,7 @@ public class GameView  extends SurfaceView{
 
        }
         else {
-           canvas.drawBitmap(ec1.getBitmap(), ec1.getX(), ec1.getY(), null);
+           canvas.drawBitmap(ec2.getBitmap(), ec2.getX(), ec2.getY(), null);
            canvas.drawBitmap(et2.getBitmap(), et2.getX(), et2.getY(), null);
        }
 
@@ -128,7 +128,7 @@ public class GameView  extends SurfaceView{
 
         }
          else {
-            r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
+            r1=new Rect(ec2.getX(),ec2.getY(),ec2.getX()+ec2.getBitmap().getWidth(),ec2.getY()+ec2.getBitmap().getHeight());
 
             r2 = new Rect(et2.getX(), et2.getY(), et2.getX() + et2.getBitmap().getWidth(), et2.getY() + et2.getBitmap().getHeight());
         }
