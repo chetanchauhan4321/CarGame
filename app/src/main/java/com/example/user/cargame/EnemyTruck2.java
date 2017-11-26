@@ -7,10 +7,10 @@ import android.graphics.BitmapFactory;
 import java.util.Random;
 
 /**
- * Created by user on 24-11-2017.
+ * Created by user on 26-11-2017.
  */
 
-public class EnemyCar2 {
+public class EnemyTruck2 {
     private Bitmap bitmap;
     private int x,x1,xmid;
     private int y,z,y1;
@@ -18,15 +18,15 @@ public class EnemyCar2 {
     EnemyCar enemyCar;
     CPlayer cPlayer;
 
-    public EnemyCar2(Context context, int screenx, int screeny){
-        bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.car5);
+    public EnemyTruck2(Context context, int screenx, int screeny){
+        bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.bus);
         x=screenx+bitmap.getWidth();
         xmid=screenx/2;
         x1=x;
         z=screeny;
         Random r=new Random();
         y=screeny/2+r.nextInt(screeny-getBitmap().getWidth()-270);
-      //  cPlayer=new CPlayer(context,screenx,screeny);
+        //  cPlayer=new CPlayer(context,screenx,screeny);
         // enemyCar=new EnemyCar(context,screenx,screeny);
         // pwidth=cPlayer.getBp().getWidth();
         //y=enemyCar.getY()+pwidth+50;
@@ -40,15 +40,14 @@ public class EnemyCar2 {
         x = x - k;
         if(x<=xmid+100) {
 
-           // y = y + 2;
-            y=y-2;
+            y = y + 2;
         }
 
-        else if(y<=0)            //  else if(y<=z-180)
+        else if(y<=z-180)
         {
-            y=y+2;  // y=y-2;
+            y=y-2;
         }
-        else  y=y+2;     //y=y-2;
+        else y=y-2;
 
         if(x<=0)
         {
@@ -63,4 +62,5 @@ public class EnemyCar2 {
     public Bitmap getBitmap(){ return bitmap;}
     public int getX(){return x;}
     public int getY(){return y;}
+
 }

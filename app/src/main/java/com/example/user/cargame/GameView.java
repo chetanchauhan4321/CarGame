@@ -24,13 +24,19 @@ public class GameView  extends SurfaceView{
     Rect r,r1,r2;
     EnemyCar ec1;
     EnemyCar2 ec2;
+    EnemyTruck et;
+    EnemyTruck2 et2;
+    int tx,ty;
     int btmy,topy;
     Button b1;
-
+  Context cc;
     @SuppressLint("WrongCall")
     public GameView(Context ct,int x,int y)
     {
         super(ct);
+        cc=ct;
+        tx=x;
+        ty=y;
         cp=new CPlayer(ct,x,y);
         boom =new Boom(ct);
         sh=getHolder();
@@ -38,6 +44,8 @@ public class GameView  extends SurfaceView{
         topy=0;
         ec1=new EnemyCar(ct,x,y);
         ec2=new EnemyCar2(ct,x,y);
+        et=new EnemyTruck(ct,x,y);
+        et2=new EnemyTruck2(ct,x,y);
         mt = new MyThread(this);
 
 
@@ -77,15 +85,56 @@ public class GameView  extends SurfaceView{
         canvas.drawText("Score:"+score,10,50,ps);
         canvas.drawBitmap(cp.getBp(),cp.getX(),cp.getY(),null);
 
-        canvas.drawBitmap(ec1.getBitmap(),ec1.getX(),ec1.getY(),null);
-        canvas.drawBitmap(ec2.getBitmap(),ec2.getX(),ec2.getY(),null);
+       // canvas.drawBitmap(ec1.getBitmap(),ec1.getX(),ec1.getY(),null);
+       // canvas.drawBitmap(ec2.getBitmap(), ec2.getX(), ec2.getY(), null);
+       if(score<5) {
+           canvas.drawBitmap(ec1.getBitmap(),ec1.getX(),ec1.getY(),null);
+            canvas.drawBitmap(et.getBitmap(), et.getX(), et.getY(), null);
+        }
+        else if(score<10){
+            canvas.drawBitmap(ec2.getBitmap(), ec2.getX(), ec2.getY(), null);
+           canvas.drawBitmap(et.getBitmap(),et.getX(),et.getY(),null);
+        }
+        else if(score<15)
+       {
+           canvas.drawBitmap(ec1.getBitmap(), ec1.getX(), ec1.getY(), null);
+           canvas.drawBitmap(et2.getBitmap(), et2.getX(), et2.getY(), null);
 
 
-        r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
-        r2=new Rect(ec2.getX(),ec2.getY(),ec2.getX()+ec2.getBitmap().getWidth(),ec2.getY()+ec2.getBitmap().getHeight());
+       }
+        else {
+           canvas.drawBitmap(ec1.getBitmap(), ec1.getX(), ec1.getY(), null);
+           canvas.drawBitmap(et2.getBitmap(), et2.getX(), et2.getY(), null);
+       }
 
+       // r2 = new Rect(ec2.getX(), ec2.getY(), ec2.getX() + ec2.getBitmap().getWidth(), ec2.getY() + ec2.getBitmap().getHeight());
 
-        if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
+        if(score<5) {
+            r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
+
+            r2 = new Rect(et.getX(), et.getY(), et.getX() + et.getBitmap().getWidth(), et.getY() + et.getBitmap().getHeight());
+        }
+        else if(score<10)
+        {
+            r1=new Rect(ec2.getX(),ec2.getY(),ec2.getX()+ec2.getBitmap().getWidth(),ec2.getY()+ec2.getBitmap().getHeight());
+
+            r2 = new Rect(et.getX(), et.getY(), et.getX() + et.getBitmap().getWidth(), et.getY() + et.getBitmap().getHeight());
+        }
+        else if(score<15)
+        {
+            r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
+
+            r2 = new Rect(et2.getX(), et2.getY(), et2.getX() + et2.getBitmap().getWidth(), et2.getY() + et2.getBitmap().getHeight());
+
+        }
+         else {
+            r1=new Rect(ec1.getX(),ec1.getY(),ec1.getX()+ec1.getBitmap().getWidth(),ec1.getY()+ec1.getBitmap().getHeight());
+
+            r2 = new Rect(et2.getX(), et2.getY(), et2.getX() + et2.getBitmap().getWidth(), et2.getY() + et2.getBitmap().getHeight());
+        }
+
+        // if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
+            if(Rect.intersects(r,r1))
             {
             boom.setX(cp.getX()+cp.getBp().getWidth()-150);
             boom.setY(cp.getY()-45);
@@ -103,6 +152,7 @@ public class GameView  extends SurfaceView{
             canvas.drawText("Game Over",350,350,p);
             canvas.drawText("Score:"+score,520,400,p1);
         }
+
         else if(btm>=btmy-150)
         {
 
@@ -147,7 +197,10 @@ public class GameView  extends SurfaceView{
         }
 
         ec1.change();
+
         ec2.change();
+        et.change();
+        et2.change();
 
 
         cp.change();

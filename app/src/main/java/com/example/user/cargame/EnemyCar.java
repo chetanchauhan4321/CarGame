@@ -37,7 +37,7 @@ public class EnemyCar {
     public void change()
     {
         Random r=new Random();
-        int k=10+r.nextInt(30);
+        int k=5+r.nextInt(30);
         x=x-k;
         if(x<=midx+100)
         {
