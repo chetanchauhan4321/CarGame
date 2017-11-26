@@ -3,6 +3,7 @@ package com.example.user.cargame;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,12 +13,16 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
 
+import static android.content.Context.MODE_WORLD_WRITEABLE;
+
 /**
  * Created by user on 23-11-2017.
  */
 
 public class GameView  extends SurfaceView{
     SurfaceHolder sh;
+    static SharedPreferences pref;
+    static SharedPreferences.Editor editor;
     CPlayer cp;
     MyThread mt;
     Boom boom;
@@ -47,6 +52,8 @@ public class GameView  extends SurfaceView{
         et=new EnemyTruck(ct,x,y);
         et2=new EnemyTruck2(ct,x,y);
         mt = new MyThread(this);
+        pref= ct.getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = pref.edit();
 
 
         sh.addCallback(new SurfaceHolder.Callback() {
@@ -73,6 +80,7 @@ public class GameView  extends SurfaceView{
     @Override
     protected void onDraw(Canvas canvas){
         int score=cp.getScore();
+        editor.putInt("k1",score);
         Paint ps=new Paint();
         ps.setColor(Color.BLUE);
         ps.setTextSize(50f);
@@ -136,6 +144,9 @@ public class GameView  extends SurfaceView{
 
          if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
             {
+                if(score>pref.getInt("k1",0)){
+                    editor.putInt("k1",score);
+                }
             boom.setX(cp.getX()+cp.getBp().getWidth()-150);
             boom.setY(cp.getY()-45);
 
@@ -144,17 +155,24 @@ public class GameView  extends SurfaceView{
             mt.isrunning(false);
             Paint p=new Paint();
             Paint p1=new Paint();
+                Paint p2=new Paint();
             p.setColor(Color.RED);
             p1.setColor(Color.BLUE);
+                p2.setColor(Color.BLUE);
             p.setTextSize(100f);
             p1.setTextSize(50f);
+                p2.setTextSize(50f);
 
             canvas.drawText("Game Over",350,350,p);
             canvas.drawText("Score:"+score,520,400,p1);
+             //   canvas.drawText("Max. Score:"+pref.getInt("k1",0),600,500,p2);
         }
 
         else if(btm>=btmy-150)
         {
+            if(score>pref.getInt("k1",0)){
+                editor.putInt("k1",score);
+            }
 
             boom.setX(cp.getX());
             boom.setY(cp.getY()+20);
@@ -176,7 +194,9 @@ public class GameView  extends SurfaceView{
         }
         else if(btm<=topy)
         {
-
+            if(score>pref.getInt("k1",0)){
+                editor.putInt("k1",score);
+            }
             boom.setX(cp.getX()+20);
             boom.setY(cp.getY()-80);
             canvas.drawBitmap(boom.getBitmap(),boom.getX(),boom.getY(),null);
@@ -191,6 +211,8 @@ public class GameView  extends SurfaceView{
 
             canvas.drawText("Game Over",350,350,p);
             canvas.drawText("Score"+score,520,400,p1);
+
+
 
 
 
