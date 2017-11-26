@@ -90,6 +90,7 @@ public class GameView  extends SurfaceView{
        if(score<5) {
            canvas.drawBitmap(ec1.getBitmap(),ec1.getX(),ec1.getY(),null);
             canvas.drawBitmap(et.getBitmap(), et.getX(), et.getY(), null);
+
         }
         else if(score<10){
             canvas.drawBitmap(ec2.getBitmap(), ec2.getX(), ec2.getY(), null);
@@ -133,8 +134,7 @@ public class GameView  extends SurfaceView{
             r2 = new Rect(et2.getX(), et2.getY(), et2.getX() + et2.getBitmap().getWidth(), et2.getY() + et2.getBitmap().getHeight());
         }
 
-        // if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
-            if(Rect.intersects(r,r1))
+         if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
             {
             boom.setX(cp.getX()+cp.getBp().getWidth()-150);
             boom.setY(cp.getY()-45);
