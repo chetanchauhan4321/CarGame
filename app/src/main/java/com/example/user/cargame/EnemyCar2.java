@@ -11,51 +11,50 @@ import java.util.Random;
  */
 
 public class EnemyCar2 {
+
     private Bitmap bitmap;
-    private int x,x1,xmid;
+    private int x,x1,sy,midx;
     private int y,z,y1;
-    private int pwidth;
-    EnemyCar enemyCar;
-    CPlayer cPlayer;
 
     public EnemyCar2(Context context, int screenx, int screeny){
         bitmap= BitmapFactory.decodeResource(context.getResources(),R.drawable.car5);
         x=screenx+bitmap.getWidth();
-        xmid=screenx/2;
+
         x1=x;
         z=screeny;
+        midx=z/2;
         Random r=new Random();
-        y=screeny/2+r.nextInt(screeny-getBitmap().getWidth()-270);
-      //  cPlayer=new CPlayer(context,screenx,screeny);
-        // enemyCar=new EnemyCar(context,screenx,screeny);
-        // pwidth=cPlayer.getBp().getWidth();
-        //y=enemyCar.getY()+pwidth+50;
-        // y1=y;
+        // y=1+r.nextInt(screeny-bitmap.getWidth()-screeny/2);
+        //y=screeny/2-r.nextInt(screeny-bitmap.getWidth());
+
+        y=r.nextInt(screeny/2-bitmap.getWidth());
+        sy=screeny;
+        //y1=y;
+
+
     }
 
     public void change()
     {
         Random r=new Random();
         int k=5+r.nextInt(30);
-        x = x - k;
-        if(x<=xmid+100) {
-
-           // y = y + 2;
+        x=x-k;
+        if(x<=midx+100)
+        {
             y=y-2;
         }
-
-        else if(y<=0)            //  else if(y<=z-180)
+        else if(y<=0)
         {
-            y=y+2;  // y=y-2;
+            y=y+2;
         }
-        else  y=y+2;     //y=y-2;
+        else y=y+2;
 
         if(x<=0)
         {
             x=x1;
             Random r2=new Random();
-            y=z/2+r2.nextInt(z-bitmap.getWidth()-270);
-            //y=y1;
+            // y=1+r2.nextInt(z-bitmap.getWidth());
+            y=r2.nextInt(sy/2-bitmap.getWidth());
 
         }
     }
