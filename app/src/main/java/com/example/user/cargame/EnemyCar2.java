@@ -39,7 +39,7 @@ public class EnemyCar2 {
         Random r=new Random();
         int k=5+r.nextInt(30);
         x=x-k;
-        if(x<=midx+100)
+       /* if(x<=midx+100)
         {
             y=y-2;
         }
@@ -48,6 +48,7 @@ public class EnemyCar2 {
             y=y+2;
         }
         else y=y+2;
+        */
 
         if(x<=0)
         {
