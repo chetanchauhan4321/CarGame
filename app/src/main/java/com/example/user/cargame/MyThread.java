@@ -27,7 +27,7 @@ public class MyThread extends Thread{
         while (flag){
             Canvas c=null;
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
                 synchronized (gameView.getHolder()){
                     c = gameView.getHolder().lockCanvas();
                     gameView.onDraw(c);

@@ -34,7 +34,7 @@ public class GameView  extends SurfaceView{
     int tx,ty;
     int btmy,topy;
     Button b1;
-  Context cc;
+    Context cc;
     @SuppressLint("WrongCall")
     public GameView(Context ct,int x,int y)
     {
@@ -142,6 +142,7 @@ public class GameView  extends SurfaceView{
             r2 = new Rect(et2.getX(), et2.getY(), et2.getX() + et2.getBitmap().getWidth(), et2.getY() + et2.getBitmap().getHeight());
         }
 
+       // if(Rect.intersects(r,r1))
          if(Rect.intersects(r,r1)|| Rect.intersects(r,r2))
             {
                 if(score>pref.getInt("k1",0)){
@@ -229,6 +230,8 @@ public class GameView  extends SurfaceView{
 
     }
     public boolean onTouchEvent(MotionEvent motionEvent){
+
+
         switch(motionEvent.getAction() & motionEvent.ACTION_MASK){
             case MotionEvent.ACTION_UP:
                 cp.moveLeft();

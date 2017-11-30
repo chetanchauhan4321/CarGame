@@ -21,7 +21,7 @@ public class EnemyCar {
         x=screenx+bitmap.getWidth();
 
         x1=x;
-         z=screeny;
+        z=screeny;
         midx=z/2;
         Random r=new Random();
        // y=1+r.nextInt(screeny-bitmap.getWidth()-screeny/2);
